@@ -1,0 +1,22 @@
+[package]
+name = "natural_as_possible"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "nap"
+path = "src/main.rs"
+
+
+[dependencies]
+# gpui core + platform — MUST be declared exactly like gpui-component declares them
+# (same URL, no rev). gpui-component floats gpui to the zed default branch; cargo only
+# unifies into a single `gpui` crate when the source string matches (no `rev=`).
+gpui = { git = "https://github.com/zed-industries/zed" }
+gpui_platform = { git = "https://github.com/zed-industries/zed", features = ["font-kit", "wayland", "x11"] }
+
+# gpui-component — pinned to current main HEAD (matches the gpui rev above)
+gpui-component = { git = "https://github.com/longbridge/gpui-component", rev = "cda0fc7fd4e4809dd2a8bae0337ac43b49e9f675" }
+gpui-component-assets = { git = "https://github.com/longbridge/gpui-component", rev = "cda0fc7fd4e4809dd2a8bae0337ac43b49e9f675" }  # optional: bundled Lucide icons; drop if managing your own assets
+
+anyhow = "1.0"
