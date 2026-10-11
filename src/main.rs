@@ -1,5 +1,6 @@
-use gpui::*;
-use gpui_component::{button::*, *};
+use gpui_kit::component::button::*;
+use gpui_kit::component::*;
+use gpui_kit::*;
 
 pub struct HelloWorld;
 
@@ -22,20 +23,14 @@ impl Render for HelloWorld {
 }
 
 fn main() {
-    let app = gpui_platform::application().with_assets(gpui_component_assets::Assets);
+    gpui_kit::application()
+        .with_assets(gpui_kit::assets::Assets)
+        .run(move |cx| {
+            // This must be called before using any GPUI Component features.
+            gpui_kit::init(cx);
 
-    app.run(move |cx| {
-        // This must be called before using any GPUI Component features.
-        gpui_component::init(cx);
-
-        cx.spawn(async move |cx| {
-            cx.open_window(WindowOptions::default(), |window, cx| {
-                let view = cx.new(|_| HelloWorld);
-                // This first level on the window, should be a Root.
-                cx.new(|cx| Root::new(view, window, cx))
-            })
-            .expect("Failed to open window");
-        })
-        .detach();
-    });
+            // Mounts a Base `Root` around the view automatically.
+            gpui_kit::open_window(WindowOptions::default(), cx, |_, cx| cx.new(|_| HelloWorld))
+                .expect("Failed to open window");
+        });
 }

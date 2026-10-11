@@ -9,14 +9,9 @@ path = "src/main.rs"
 
 
 [dependencies]
-# gpui core + platform — MUST be declared exactly like gpui-component declares them
-# (same URL, no rev). gpui-component floats gpui to the zed default branch; cargo only
-# unifies into a single `gpui` crate when the source string matches (no `rev=`).
-gpui = { git = "https://github.com/zed-industries/zed" }
-gpui_platform = { git = "https://github.com/zed-industries/zed", features = ["font-kit", "wayland", "x11"] }
-
-# gpui-component — pinned to current main HEAD (matches the gpui rev above)
-gpui-component = { git = "https://github.com/longbridge/gpui-component", rev = "cda0fc7fd4e4809dd2a8bae0337ac43b49e9f675" }
-gpui-component-assets = { git = "https://github.com/longbridge/gpui-component", rev = "cda0fc7fd4e4809dd2a8bae0337ac43b49e9f675" }  # optional: bundled Lucide icons; drop if managing your own assets
+# gpui-kit (formerly gpui-component) — single dep; re-exports gpui (pinned `gpui-pre`
+# snapshot from crates.io), gpui_platform (font-kit/x11/wayland), gpui-component
+# (`gpui_kit::component`) and Lucide icons (`gpui_kit::assets`, default `assets` feature).
+gpui-kit = "0.7"
 
 anyhow = "1.0"
